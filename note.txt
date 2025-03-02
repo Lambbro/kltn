@@ -1,0 +1,23 @@
+backend
+	- main.py (controller - fastapi)
+	- repository.py (sqlalchemy)
+	- models.py (models)
+
+
+B1: Tạo models trong file models.py
+B2: Tạo file database.py để cài đặt dotenv
+B3: Tạo database trong mysql và thêm connectionstring vào env với tk mk
+B4: Tạo alembic
+- alembic init alembic -> ra folder alembic
+- chỉnh sửa env.py theo dotenv và thêm import models
+- chạy alembic revision --autogenerate -m "Initial migration" để tạo bảng
+- chạy alembic upgrade head để ghi từ migration vào database
+B5: Tạo schemas cho từng model
+- Base Schemas: dùng cho thuộc tính chung 
+- Read Schemas: Dùng kế thừa base schemas dùng để đọc và trả về thông tin
+- Update Schemas: Dùng để cập nhật thông tin Schemas
+	- Chưa orm_mode = True dùng để làm việc với sqlalchemy
+B6: tạo repository
+B7: tạo main.py 
+B8: chạy thử
+B9: tích hợp tính năng nâng cao
