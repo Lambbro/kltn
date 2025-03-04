@@ -40,8 +40,8 @@ class Khoa(Base):
     __tablename__ = "Khoa"
     # done
     ma_khoa = Column(String(20), primary_key=True)
-    ten_khoa = Column(String(255), nullable=False)
-    dia_chi = Column(String(255), nullable=True)
+    ten_khoa = Column(String, nullable=False)
+    dia_chi = Column(String, nullable=True)
     #done
     sinh_vien = relationship("SinhVien", back_populates="khoa")
     giang_vien = relationship("GiangVien", back_populates="khoa")
@@ -51,7 +51,7 @@ class HuongNghienCuu(Base):
     __tablename__ = "HuongNghienCuu"
     # done
     ma_huong_nc = Column(Integer, primary_key=True, autoincrement=True)
-    ten_huong_nc = Column(String(255), nullable=False)
+    ten_huong_nc = Column(String, nullable=False)
 
     dang_ky_nckh = relationship("DangKyNCKH", secondary=hnc_dangkynckh_table, back_populates="huong_nghien_cuu")
     de_tai_sv = relationship("DeTaiNCKHSV", secondary=hnc_detaisv_table, back_populates="huong_nghien_cuu")
@@ -76,7 +76,7 @@ class SinhVien(Base):
     cccd = Column(String(12), unique=True, nullable=False)
     gioi_tinh = Column(Boolean, nullable=False)
     ngay_sinh = Column(Date, nullable=False)
-    que_quan = Column(String(255), nullable=True)
+    que_quan = Column(String, nullable=True)
     sdt = Column(Integer, unique=True, nullable=True)
     lop_hanh_chinh = Column(String(15), nullable=False)
     khoa_hoc = Column(Integer, nullable=False)
@@ -96,10 +96,10 @@ class GiangVien(Base):
     cccd = Column(String(12), unique=True, nullable=False)
     gioi_tinh = Column(Boolean, nullable=False)
     ngay_sinh = Column(Date, nullable=False)
-    que_quan = Column(String(255), nullable=True)
+    que_quan = Column(String, nullable=True)
     sdt = Column(Integer, unique=True, nullable=True)
-    don_vi_cong_tac = Column(String(255), nullable=True)
-    dia_chi_cong_tac = Column(String(255), nullable=True)
+    don_vi_cong_tac = Column(String, nullable=True)
+    dia_chi_cong_tac = Column(String, nullable=True)
     email = Column(String(50), ForeignKey("TaiKhoan.email"), nullable=False)
     ma_khoa = Column(String(20), ForeignKey("Khoa.ma_khoa"), nullable=False)
 
@@ -127,9 +127,9 @@ class DeTaiNCKHSV(Base):
     __tablename__ = "DeTaiNCKHSV"
     # done
     ma_de_tai = Column(Integer, primary_key=True, autoincrement=True)
-    ten_de_tai = Column(String(255), nullable=False)
-    thuong_cap_khoa = Column(String(255), nullable=True)
-    thuong_cap_truong = Column(String(255), nullable=True)
+    ten_de_tai = Column(String, nullable=False)
+    thuong_cap_khoa = Column(String, nullable=True)
+    thuong_cap_truong = Column(String, nullable=True)
     dot_thuc_hien = Column(Integer, nullable=False)
     trang_thai = Column(Integer, nullable=False)
     ma_khoa = Column(String(20), ForeignKey("Khoa.ma_khoa"), nullable=False)
@@ -179,7 +179,7 @@ class DeTaiNCKHGV(Base):
     __tablename__ = "DeTaiNCKHGV"
     # done
     ma_de_tai = Column(Integer, primary_key=True, autoincrement=True)
-    ten_de_tai = Column(String(255), nullable=False)
+    ten_de_tai = Column(String, nullable=False)
     thoi_gian_bat_dau = Column(Date, nullable=False)
     thoi_han_nghiem_thu = Column(Date, nullable=False)
     thoi_gian_thuc_nghiem = Column(Date, nullable=True)
@@ -194,10 +194,10 @@ class TaiLieuNCKHGV(Base):
     # done
     ma_tai_lieu = Column(Integer, primary_key=True, autoincrement=True)
     loai_tai_lieu = Column(Integer, nullable=False)
-    tep_tai_lieu = Column(String(255), nullable=False)
+    tep_tai_lieu = Column(String, nullable=False)
     thoi_gian_nop = Column(DateTime, nullable=False)
     trang_thai = Column(Integer, nullable=False)
-    phan_hoi = Column(String(255), nullable=True)
+    phan_hoi = Column(String, nullable=True)
     ma_de_tai = Column(Integer, ForeignKey("DeTaiNCKHGV.ma_de_tai"), nullable=False)    
 
     de_tai_gv = relationship("DeTaiNCKHGV", back_populates="tai_lieu_gv")
@@ -347,7 +347,7 @@ class HoatDongGiangDay(Base):
     chuyen_nganh = Column(String(255), nullable=False)
     trinh_do = Column(Integer, nullable=False)
     so_nam = Column(Integer, nullable=False)
-    noi_day = Column(String(255), nullable=False)
+    noi_day = Column(String, nullable=False)
     ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
 
     giang_vien = relationship("GiangVien", back_populates="hoat_dong_gd")

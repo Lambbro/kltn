@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional
+from datetime import date
 
 #Khoa Schemas
 class KhoaBase(BaseModel):
@@ -16,7 +17,7 @@ class Khoa(KhoaBase):
         orm_mode = True
 #HuongNC Schemas
 class HuongNghienCuuBase(BaseModel):
-    ten_huong_nc = Field(..., max_length=255, description="Tên Hướng Nghiên Cứu")
+    ten_huong_nc: str = Field(..., max_length=255, description="Tên Hướng Nghiên Cứu")
 class HuongNghienCuuCreate(HuongNghienCuuBase):
     pass
 class HuongNghienCuuUpdate(BaseModel):
@@ -29,7 +30,7 @@ class HuongNghienCuu(HuongNghienCuuBase):
 #TaiKhoan Schemas
 class TaiKhoanBase(BaseModel):
     email: str = Field(..., max_length=50, description="Email Tài Khoản")
-    quyen_han: int = Field(..., description="Quyền hạn (ví dụ: 0: Admin, 1: PhongQLKHDN, 2: ToNCKH, 3: GV, 4: SV)")
+    quyen_han: int = Field(4, description="Quyền hạn (ví dụ: 0: Admin, 1: PhongQLKHDN, 2: ToNCKH, 3: GV, 4: SV)")
 class TaiKhoanCreate(TaiKhoanBase):
     mat_khau: str = Field(..., min_length=8, description="Mật khẩu (chưa hash)")  # Yêu cầu mật khẩu chưa hash để tạo tài khoản
 class TaiKhoanUpdate(BaseModel):
@@ -45,9 +46,9 @@ class SinhVienBase(BaseModel):
     ten_sv: str = Field(..., max_length=100, description="Tên sinh viên")
     cccd: str = Field(..., max_length=12, description="Căn cước công dân")
     gioi_tinh: bool = Field(..., description="Giới tính (True: Nam, False: Nữ)")
-    ngay_sinh: str = Field(..., description="Ngày sinh (YYYY-MM-DD)")#Sửa kiểu Date thành str
+    ngay_sinh: date = Field(..., description="Ngày sinh (YYYY-MM-DD)")#Sửa kiểu Date thành str
     que_quan: Optional[str] = Field(None, max_length=255, description="Quê quán")
-    sdt: Optional[int] = Field(None, description="Số điện thoại")
+    sdt: Optional[str] = Field(None, description="Số điện thoại")
     lop_hanh_chinh: str = Field(..., max_length=15, description="Lớp hành chính")
     khoa_hoc: int = Field(..., description="Khóa học")
     email: str = Field(..., max_length=50, description="Email")
@@ -75,9 +76,9 @@ class GiangVienBase(BaseModel):
     ten_gv: str = Field(..., max_length=100, description="Tên giảng viên")
     cccd: str = Field(..., max_length=12, description="Căn cước công dân")
     gioi_tinh: bool = Field(..., description="Giới tính (True: Nam, False: Nữ)")
-    ngay_sinh: str = Field(..., description="Ngày sinh (YYYY-MM-DD)") #Sửa kiểu Date thành str
+    ngay_sinh: date = Field(..., description="Ngày sinh (YYYY-MM-DD)") #Sửa kiểu Date thành str
     que_quan: Optional[str] = Field(None, max_length=255, description="Quê quán")
-    sdt: Optional[int] = Field(None, description="Số điện thoại")
+    sdt: Optional[str] = Field(None, description="Số điện thoại")
     don_vi_cong_tac: Optional[str] = Field(None, max_length=255, description="Đơn vị công tác")
     dia_chi_cong_tac: Optional[str] = Field(None, max_length=255, description="Địa chỉ công tác")
     email: str = Field(..., max_length=50, description="Email")
