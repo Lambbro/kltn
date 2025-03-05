@@ -1,12 +1,13 @@
 import hashlib
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 from sqlalchemy.exc import IntegrityError
 from models import models
 from schemas import schemas
 
 class TaiKhoanService:
     @staticmethod
-    def dang_ky(db: Session, tai_khoan: schemas.TaiKhoanCreate):
+    async def dang_ky(db: AsyncSession, tai_khoan: schemas.TaiKhoanCreate):
         hashed_password = hashlib.sha256(tai_khoan.mat_khau.encode('utf-8')).hexdigest()
         db_tai_khoan = models.TaiKhoan(
             email=tai_khoan.email,
@@ -15,32 +16,33 @@ class TaiKhoanService:
         )
         db.add(db_tai_khoan)
         try:
-            db.commit()
-            db.refresh(db_tai_khoan)
+            await db.commit()
+            await db.refresh(db_tai_khoan)
             return db_tai_khoan
         except IntegrityError:
-            db.rollback()
+            await db.rollback()
             raise ValueError("Email đã tồn tại.")
     
     @staticmethod
-    def dang_nhap(db: Session, email: str, mat_khau: str):
+    async def dang_nhap(db: AsyncSession, email: str, mat_khau: str):
         hashed_password = hashlib.sha256(mat_khau.encode('utf-8')).hexdigest()
-        user = db.query(models.TaiKhoan).filter_by(email=email, mat_khau=hashed_password).first()
-        if user:
-            return user
-        return None
+        result = await db.execute(select(models.TaiKhoan).filter_by(email=email, mat_khau=hashed_password))
+        user = result.scalars().first()
+        return user
 
     @staticmethod
-    def get_all(db: Session):
-        return db.query(models.TaiKhoan).all()
+    async def get_all(db: AsyncSession):
+        result = await db.execute(select(models.TaiKhoan))
+        return result.scalars().all()
 
     @staticmethod
-    def get_by_email(db: Session, email: str):
-        return db.query(models.TaiKhoan).filter(models.TaiKhoan.email == email).first()
+    async def get_by_email(db: AsyncSession, email: str):
+        result = await db.execute(select(models.TaiKhoan).filter(models.TaiKhoan.email == email))
+        return result.scalars().first()
 
     @staticmethod
-    def update(db: Session, email: str, tai_khoan: schemas.TaiKhoanUpdate):
-        user = db.query(models.TaiKhoan).filter(models.TaiKhoan.email == email).first()
+    async def update(db: AsyncSession, email: str, tai_khoan: schemas.TaiKhoanUpdate):
+        user = await TaiKhoanService.get_by_email(db, email)
         if not user:
             return None
         
@@ -50,16 +52,16 @@ class TaiKhoanService:
         if tai_khoan.mat_khau is not None:
             user.mat_khau = hashlib.sha256(tai_khoan.mat_khau.encode('utf-8')).hexdigest()
         
-        db.commit()
-        db.refresh(user)
+        await db.commit()
+        await db.refresh(user)
         return user
     
     @staticmethod
-    def delete(db: Session, email: str):
-        user = db.query(models.TaiKhoan).filter(models.TaiKhoan.email == email).first()
+    async def delete(db: AsyncSession, email: str):
+        user = await TaiKhoanService.get_by_email(db, email)
         if not user:
             return False
         
-        db.delete(user)
-        db.commit()
+        await db.delete(user)
+        await db.commit()
         return True

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_db
 from schemas.schemas import HuongNghienCuu, HuongNghienCuuCreate, HuongNghienCuuUpdate
 from services.huong_nc_service import HuongNghienCuuService
@@ -8,36 +8,35 @@ from typing import List
 router = APIRouter(prefix="/huongnghiencuu", tags=["Hướng Nghiên Cứu"])
 
 @router.get("/", response_model=List[HuongNghienCuu])
-def get_all_hnc(db: Session = Depends(get_db)):
+async def get_all_hnc(db: AsyncSession = Depends(get_db)):
     service = HuongNghienCuuService(db)
-    return service.get_all_hnc()
+    return await service.get_all_hnc()
 
 @router.get("/{ma_hnc}", response_model=HuongNghienCuu)
-def get_hnc(ma_hnc: int, db: Session = Depends(get_db)):
+async def get_hnc(ma_hnc: int, db: AsyncSession = Depends(get_db)):
     service = HuongNghienCuuService(db)
-    try:
-        return service.get_hnc(ma_hnc)
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
-    
+    hnc = await service.get_hnc(ma_hnc)
+    if not hnc:
+        raise HTTPException(status_code=404, detail="Hướng Nghiên Cứu không tồn tại")
+    return hnc
+
 @router.post("/", response_model=HuongNghienCuu)
-def create_hnc(hnc_data: HuongNghienCuuCreate, db: Session = Depends(get_db)):
+async def create_hnc(hnc_data: HuongNghienCuuCreate, db: AsyncSession = Depends(get_db)):
     service = HuongNghienCuuService(db)
-    return service.create_hnc(hnc_data)
+    return await service.create_hnc(hnc_data)
 
 @router.put("/{ma_hnc}", response_model=HuongNghienCuu)
-def update_hnc(ma_hnc: int, hnc_data: HuongNghienCuuUpdate, db: Session = Depends(get_db)):
+async def update_hnc(ma_hnc: int, hnc_data: HuongNghienCuuUpdate, db: AsyncSession = Depends(get_db)):
     service = HuongNghienCuuService(db)
-    try:
-        return service.update_hnc(ma_hnc, hnc_data)
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+    updated_hnc = await service.update_hnc(ma_hnc, hnc_data)
+    if not updated_hnc:
+        raise HTTPException(status_code=404, detail="Không thể cập nhật, có thể mã này không tồn tại")
+    return updated_hnc
 
-@router.delete("/{ma_hnc}", response_model=dict)
-def delete_hnc(ma_hnc: int, db: Session = Depends(get_db)):
+@router.delete("/{ma_hnc}")
+async def delete_hnc(ma_hnc: int, db: AsyncSession = Depends(get_db)):
     service = HuongNghienCuuService(db)
-    try:
-        service.delete_hnc(ma_hnc)
-        return {"message": "Xóa thành công"}
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+    success = await service.delete_hnc(ma_hnc)
+    if not success:
+        raise HTTPException(status_code=404, detail="Không thể xóa, có thể mã này không tồn tại")
+    return {"message": "Xóa thành công"}
