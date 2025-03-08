@@ -24,7 +24,7 @@ class HocVi(HocViBase):
     ma_hoc_vi: int = Field(..., description="Mã học vị")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # ChucDanhKhoaHoc Schemas
 class ChucDanhKhoaHocBase(BaseModel):
@@ -48,7 +48,7 @@ class ChucDanhKhoaHoc(ChucDanhKhoaHocBase):
     ma_cdkh: int = Field(..., description="Mã chức danh khoa học")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # TrinhDoHocVan Schemas
 class TrinhDoHocVanBase(BaseModel):
@@ -72,7 +72,7 @@ class TrinhDoHocVan(TrinhDoHocVanBase):
     ma_tdhv: int = Field(..., description="Mã trình độ học vấn")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # KhoaDaoTao Schemas
 class KhoaDaoTaoBase(BaseModel):
@@ -96,7 +96,7 @@ class KhoaDaoTao(KhoaDaoTaoBase):
     ma_khoa_dao_tao: int = Field(..., description="Mã khóa đào tạo")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # TrinhDoNgoaiNgu Schemas
 class TrinhDoNgoaiNguBase(BaseModel):
@@ -122,7 +122,7 @@ class TrinhDoNgoaiNgu(TrinhDoNgoaiNguBase):
     ma_nn: int = Field(..., description="Mã ngoại ngữ")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # QuaTrinhCongTac Schemas
 class QuaTrinhCongTacBase(BaseModel):
@@ -146,7 +146,7 @@ class QuaTrinhCongTac(QuaTrinhCongTacBase):
     ma_qtct: int = Field(..., description="Mã quá trình công tác")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # SachBaoCongNghe Schemas
 class SachBaoCongNgheBase(BaseModel):
@@ -172,7 +172,7 @@ class SachBaoCongNghe(SachBaoCongNgheBase):
     ma_sach: int = Field(..., description="Mã sách")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # PhatMinhSangChe Schemas
 class PhatMinhSangCheBase(BaseModel):
@@ -196,7 +196,7 @@ class PhatMinhSangChe(PhatMinhSangCheBase):
     ma_pmsc: int = Field(..., description="Mã phát minh sáng chế")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # DeTaiKHCN Schemas
 class DeTaiKHCNBase(BaseModel):
@@ -239,7 +239,7 @@ class GiaiThuongKHCN(GiaiThuongKHCNBase):
     ma_giai_thuong: int = Field(..., description="Mã giải thưởng")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # HoatDongCaoHoc Schemas
 class HoatDongCaoHocBase(BaseModel):
@@ -265,7 +265,7 @@ class HoatDongCaoHoc(HoatDongCaoHocBase):
     ma_hdch: int = Field(..., description="Mã hoạt động cao học")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # HoatDongGiangDay Schemas
 class HoatDongGiangDayBase(BaseModel):
@@ -291,4 +291,4 @@ class HoatDongGiangDay(HoatDongGiangDayBase):
     ma_hoat_dong: int = Field(..., description="Mã hoạt động")
 
     class Config:
-        orm_mode = True
+        from_attributes = True

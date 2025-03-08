@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_db
 from schemas.schemas import SinhVien, SinhVienCreate, SinhVienUpdate
@@ -9,28 +9,21 @@ router = APIRouter(prefix="/sinh_vien", tags=["Sinh Viên"])
 
 @router.get("/", response_model=List[SinhVien])
 async def get_all_sinh_vien(db: AsyncSession = Depends(get_db)):
-    service = SinhVienService(db)
-    return await service.get_all_sinh_vien()
+    return await SinhVienService(db).get_all_sinh_vien()
 
 @router.get("/{ma_sv}", response_model=SinhVien)
 async def get_sinh_vien(ma_sv: str, db: AsyncSession = Depends(get_db)):
-    service = SinhVienService(db)
-    return await service.get_sinh_vien(ma_sv)
+    return await SinhVienService(db).get_sinh_vien(ma_sv)
 
 @router.post("/", response_model=SinhVien)
 async def create_sinh_vien(sinh_vien: SinhVienCreate, db: AsyncSession = Depends(get_db)):
-    service = SinhVienService(db)
-    return await service.create_sinh_vien(sinh_vien)
+    return await SinhVienService(db).create_sinh_vien(sinh_vien, db)
 
 @router.put("/{ma_sv}", response_model=SinhVien)
 async def update_sinh_vien(ma_sv: str, sinh_vien: SinhVienUpdate, db: AsyncSession = Depends(get_db)):
-    service = SinhVienService(db)
-    return await service.update_sinh_vien(ma_sv, sinh_vien)
+    return await SinhVienService(db).update_sinh_vien(ma_sv, sinh_vien)
 
 @router.delete("/{ma_sv}")
 async def delete_sinh_vien(ma_sv: str, db: AsyncSession = Depends(get_db)):
     service = SinhVienService(db)
-    success = await service.delete_sinh_vien(ma_sv)
-    if not success:
-        raise HTTPException(status_code=404, detail="Không thể xóa sinh viên, có thể mã này không tồn tại.")
-    return {"success": success}
+    return await service.delete_sinh_vien(ma_sv)

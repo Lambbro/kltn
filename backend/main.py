@@ -1,7 +1,11 @@
-from routers import sinh_vien_router, tai_khoan_router, khoa_router, huong_nc_router
 from fastapi import FastAPI
 from database import engine, Base
-import asyncio
+
+from routers import (
+    sinh_vien_router, tai_khoan_router, khoa_router, 
+    huong_nc_router, giang_vien_router,
+    syll_router
+)
 
 app = FastAPI(
     title="API Quản Lý NCKH",
@@ -24,6 +28,9 @@ app.include_router(khoa_router.router)
 app.include_router(huong_nc_router.router)
 app.include_router(tai_khoan_router.router)
 app.include_router(sinh_vien_router.router)
+app.include_router(giang_vien_router.router)
+
+app.include_router(syll_router.hoc_vi_router)
 
 # Chạy ứng dụng
 if __name__ == "__main__":

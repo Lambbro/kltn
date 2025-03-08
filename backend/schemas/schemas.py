@@ -14,7 +14,7 @@ class KhoaUpdate(BaseModel):
     dia_chi: Optional[str] = Field(None, max_length=255, description="Địa Chỉ Khoa")
 class Khoa(KhoaBase):
     class Config:
-        orm_mode = True
+        from_attributes = True
 #HuongNC Schemas
 class HuongNghienCuuBase(BaseModel):
     ten_huong_nc: str = Field(..., max_length=255, description="Tên Hướng Nghiên Cứu")
@@ -26,7 +26,7 @@ class HuongNghienCuu(HuongNghienCuuBase):
     ma_huong_nc: int = Field(..., description="Mã Hướng Nghiên Cứu")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 #TaiKhoan Schemas
 class TaiKhoanBase(BaseModel):
     email: str = Field(..., max_length=50, description="Email Tài Khoản")
@@ -39,11 +39,11 @@ class TaiKhoanUpdate(BaseModel):
 class TaiKhoan(TaiKhoanBase):
     # Không bao gồm mật khẩu (đã hash hay chưa)
     class Config:
-        orm_mode = True
+        from_attributes = True
 #SinhVien Schemas
 class SinhVienBase(BaseModel):
     ma_sv: str = Field(..., max_length=20, description="Mã sinh viên")
-    ten_sv: str = Field(..., max_length=100, description="Tên sinh viên")
+    ten_sv: str = Field(..., max_length=255, description="Tên sinh viên")
     cccd: str = Field(..., max_length=12, description="Căn cước công dân")
     gioi_tinh: bool = Field(..., description="Giới tính (True: Nam, False: Nữ)")
     ngay_sinh: date = Field(..., description="Ngày sinh (YYYY-MM-DD)")#Sửa kiểu Date thành str
@@ -56,12 +56,12 @@ class SinhVienBase(BaseModel):
 class SinhVienCreate(SinhVienBase):
     pass
 class SinhVienUpdate(BaseModel):
-    ten_sv: Optional[str] = Field(None, max_length=100, description="Tên sinh viên")
+    ten_sv: Optional[str] = Field(None, max_length=255, description="Tên sinh viên")
     cccd: Optional[str] = Field(None, max_length=12, description="Căn cước công dân")
     gioi_tinh: Optional[bool] = Field(None, description="Giới tính (True: Nam, False: Nữ)")
     ngay_sinh: Optional[str] = Field(None, description="Ngày sinh (YYYY-MM-DD)")#Sửa kiểu Date thành str
     que_quan: Optional[str] = Field(None, max_length=255, description="Quê quán")
-    sdt: Optional[int] = Field(None, description="Số điện thoại")
+    sdt: Optional[str] = Field(None, description="Số điện thoại")
     lop_hanh_chinh: Optional[str] = Field(None, max_length=15, description="Lớp hành chính")
     khoa_hoc: Optional[int] = Field(None, description="Khóa học")
     email: Optional[str] = Field(None, max_length=50, description="Email")
@@ -69,11 +69,11 @@ class SinhVienUpdate(BaseModel):
 
 class SinhVien(SinhVienBase):
     class Config:
-        orm_mode = True
+        from_attributes = True
 #GiangVien Schemas
 class GiangVienBase(BaseModel):
     ma_gv: str = Field(..., max_length=20, description="Mã giảng viên")
-    ten_gv: str = Field(..., max_length=100, description="Tên giảng viên")
+    ten_gv: str = Field(..., max_length=255, description="Tên giảng viên")
     cccd: str = Field(..., max_length=12, description="Căn cước công dân")
     gioi_tinh: bool = Field(..., description="Giới tính (True: Nam, False: Nữ)")
     ngay_sinh: date = Field(..., description="Ngày sinh (YYYY-MM-DD)") #Sửa kiểu Date thành str
@@ -86,16 +86,16 @@ class GiangVienBase(BaseModel):
 class GiangVienCreate(GiangVienBase):
     pass
 class GiangVienUpdate(BaseModel):
-    ten_gv: Optional[str] = Field(None, max_length=100, description="Tên giảng viên")
+    ten_gv: Optional[str] = Field(None, max_length=255, description="Tên giảng viên")
     cccd: Optional[str] = Field(None, max_length=12, description="Căn cước công dân")
     gioi_tinh: Optional[bool] = Field(None, description="Giới tính (True: Nam, False: Nữ)")
     ngay_sinh: Optional[str] = Field(None, description="Ngày sinh (YYYY-MM-DD)")#Sửa kiểu Date thành str
     que_quan: Optional[str] = Field(None, max_length=255, description="Quê quán")
-    sdt: Optional[int] = Field(None, description="Số điện thoại")
+    sdt: Optional[str] = Field(None, description="Số điện thoại")
     don_vi_cong_tac: Optional[str] = Field(None, max_length=255, description="Đơn vị công tác")
     dia_chi_cong_tac: Optional[str] = Field(None, max_length=255, description="Địa chỉ công tác")
     email: Optional[str] = Field(None, max_length=50, description="Email")
     ma_khoa: Optional[str] = Field(None, max_length=20, description="Mã khoa")
 class GiangVien(GiangVienBase):
     class Config:
-        orm_mode = True
+        from_attributes = True

@@ -184,7 +184,7 @@ class TaiLieuNCKHSVRepository:
     async def get_all(self):
         result = await self.db.execute(select(models.TaiLieuNCKHSV))
         return result.scalars().all()
-
+    
     async def create(self, tai_lieu: nckh_schemas.TaiLieuNCKHSVCreate):
         db_tai_lieu = models.TaiLieuNCKHSV(**tai_lieu.model_dump())
         self.db.add(db_tai_lieu)

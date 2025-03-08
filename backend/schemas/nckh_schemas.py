@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional
 from datetime import date, datetime
 
 #NCKH Sinh Vien
@@ -14,7 +14,7 @@ class DangKyNCKH(DangKyNCKHBase):
     ma_dk: int = Field(..., description="Mã đăng ký")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 #NguyenVongDangKyNCKH Schemas
 class NguyenVongDangKyNCKHBase(BaseModel):
     ma_gv: str = Field(..., max_length=20, description="Mã giảng viên")
@@ -29,7 +29,7 @@ class NguyenVongDangKyNCKH(NguyenVongDangKyNCKHBase):
     ma_dk: int = Field(..., description="Mã đăng ký")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 #NhomNCKHSV Schemas
 class NhomNCKHBase(BaseModel):
     trang_thai: int = Field(..., description="Trạng thái")
@@ -45,12 +45,12 @@ class NhomNCKH(NhomNCKHBase):
     ma_nhom: int = Field(..., description="Mã nhóm")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 #DeTaiNCKHSV Schemas
 class DeTaiNCKHSVBase(BaseModel):
     ten_de_tai: str = Field(..., max_length=255, description="Tên Đề Tài NCKH Sinh Viên")
-    thuong_cap_khoa: Optional[str] = Field(None, max_length=255, description="Thưởng cấp khoa")
-    thuong_cap_truong: Optional[str] = Field(None, max_length=255, description="Thưởng cấp trường")
+    thuong_cap_khoa: Optional[str] = Field(None, description="Thưởng cấp khoa")
+    thuong_cap_truong: Optional[str] = Field(None, description="Thưởng cấp trường")
     dot_thuc_hien: int = Field(..., description="Đợt thực hiện")
     trang_thai: int = Field(..., description="Trạng thái")
     ma_khoa: str = Field(..., max_length=20, description="Mã khoa")
@@ -58,8 +58,8 @@ class DeTaiNCKHSVCreate(DeTaiNCKHSVBase):
     pass
 class DeTaiNCKHSVUpdate(BaseModel):
     ten_de_tai: Optional[str] = Field(None, max_length=255, description="Tên đề tài")
-    thuong_cap_khoa: Optional[str] = Field(None, max_length=255, description="Thưởng cấp khoa")
-    thuong_cap_truong: Optional[str] = Field(None, max_length=255, description="Thưởng cấp trường")
+    thuong_cap_khoa: Optional[str] = Field(None, description="Thưởng cấp khoa")
+    thuong_cap_truong: Optional[str] = Field(None,description="Thưởng cấp trường")
     dot_thuc_hien: Optional[int] = Field(None, description="Đợt thực hiện")
     trang_thai: Optional[int] = Field(None, description="Trạng thái")
     ma_khoa: Optional[str] = Field(None, max_length=20, description="Mã khoa")
@@ -67,14 +67,14 @@ class DeTaiNCKHSV(DeTaiNCKHSVBase):
     ma_de_tai: int = Field(..., description="Mã đề tài")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 #TaiLieuNCKHSV Schemas
 class TaiLieuNCKHSVBase(BaseModel):
     loai_tai_lieu: int = Field(..., description="Loại tài liệu")
     tep_tai_lieu: str = Field(..., max_length=255, description="Tệp tài liệu")
     thoi_gian_nop: datetime = Field(..., description="Thời gian nộp")
     trang_thai: int = Field(..., description="Trạng thái")
-    phan_hoi: Optional[str] = Field(None, max_length=255, description="Phản hồi")
+    phan_hoi: Optional[str] = Field(None, description="Phản hồi")
     ma_de_tai: int = Field(..., description="Mã đề tài")
 class TaiLieuNCKHSVCreate(TaiLieuNCKHSVBase):
     pass
@@ -89,7 +89,7 @@ class TaiLieuNCKHSV(TaiLieuNCKHSVBase):
     ma_tai_lieu: int = Field(..., description="Mã tài liệu")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 #NCKH Giang Vien
 #DeTaiNCKHGV Schemas
 class DeTaiNCKHGVBase(BaseModel):
@@ -111,14 +111,14 @@ class DeTaiNCKHGV(DeTaiNCKHGVBase):
     ma_de_tai: int = Field(..., description="Mã đề tài")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 #TaiLieuNCKHGV Schemas
 class TaiLieuNCKHGVBase(BaseModel):
     loai_tai_lieu: int = Field(..., description="Loại tài liệu")
     tep_tai_lieu: str = Field(..., max_length=255, description="Tệp tài liệu")
     thoi_gian_nop: datetime = Field(..., description="Thời gian nộp")
     trang_thai: int = Field(..., description="Trạng thái")
-    phan_hoi: Optional[str] = Field(None, max_length=255, description="Phản hồi")
+    phan_hoi: Optional[str] = Field(None, description="Phản hồi")
     ma_de_tai: int = Field(..., description="Mã đề tài")
 class TaiLieuNCKHGVCreate(TaiLieuNCKHGVBase):
     pass
@@ -127,13 +127,13 @@ class TaiLieuNCKHGVUpdate(BaseModel):
     tep_tai_lieu: Optional[str] = Field(None, max_length=255, description="Tệp tài liệu")
     thoi_gian_nop: Optional[datetime] = Field(None, description="Thời gian nộp")
     trang_thai: Optional[int] = Field(None, description="Trạng thái")
-    phan_hoi: Optional[str] = Field(None, max_length=255, description="Phản hồi")
+    phan_hoi: Optional[str] = Field(None, description="Phản hồi")
     ma_de_tai: Optional[int] = Field(None, description="Mã đề tài")
 class TaiLieuNCKHGV(TaiLieuNCKHGVBase):
     ma_tai_lieu: int = Field(..., description="Mã tài liệu")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 #ThanhVienDeTaiNCKHGV Schemas
 class ThanhVienDeTaiNCKHGVBase(BaseModel):
     ma_gv: str = Field(..., max_length=20, description="Mã giảng viên")
@@ -146,4 +146,4 @@ class ThanhVienDeTaiNCKHGV(ThanhVienDeTaiNCKHGVBase):
     ma_de_tai: int = Field(..., description="Mã đề tài")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
