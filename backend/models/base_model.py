@@ -51,6 +51,7 @@ hnc_detaiNCKHGV_table = Table(
     Column("ma_de_tai", Integer, ForeignKey("DeTaiNCKHGV.ma_de_tai"), primary_key=True)
 )
 # MODEL CHÍNH
+#model khoa
 class Khoa(Base):
     __tablename__ = "Khoa"
 
@@ -62,7 +63,8 @@ class Khoa(Base):
     sinh_vien = relationship("SinhVien", back_populates="khoa")
     giang_vien = relationship("GiangVien", back_populates="khoa")
     hd_khoa = relationship("HoiDongKhoa", back_populates="khoa")
-    
+
+#model hướng nghiên cứu
 class HuongNghienCuu(Base):
     __tablename__ = "HuongNghienCuu"
 
@@ -75,6 +77,7 @@ class HuongNghienCuu(Base):
     de_tai_sv = relationship("DeTaiNCKHSV", secondary=hnc_detaiNCKHSV_table, back_populates="huong_nghien_cuu")
     de_tai_gv = relationship("DeTaiNCKHGV", secondary=hnc_detaiNCKHGV_table, back_populates="huong_nghien_cuu")
 
+#model tài khoản
 class TaiKhoan(Base):
     __tablename__ = "TaiKhoan"
 
@@ -88,6 +91,7 @@ class TaiKhoan(Base):
     thong_bao = relationship("ThongBao", back_populates="tai_khoan")
     nguoi_nhan_tb = relationship("ThongBao", secondary=taikhoan_thongbao_table, back_populates="tai_khoan_nguoi_nhan")
 
+#model khen thưởng
 class KhenThuong(Base):
     __tablename__ = "KhenThuong"
 
@@ -98,6 +102,7 @@ class KhenThuong(Base):
     #relationship
     de_tai_sv = relationship("DeTaiNCKHSV", secondary=khenthuong_detaiNCKHSV_table, back_populates="khen_thuong")
 
+#model sinh viên
 class SinhVien(Base):
     __tablename__ = "SinhVien"
 
@@ -119,7 +124,7 @@ class SinhVien(Base):
     khoa = relationship("Khoa", back_populates="sinh_vien")
     dk_nckh = relationship("DangKyNCKH", back_populates="sinh_vien")
     nhom_nckh = relationship("NhomNCKH", secondary=thanhvien_nhomSV_table, back_populates="sinh_vien")
-
+#Model giảng viên
 class GiangVien(Base):
     __tablename__ = "GiangVien"
 
@@ -140,10 +145,25 @@ class GiangVien(Base):
     nguyen_vong = relationship("NguyenVongDK", back_populates="giang_vien")
     nhom_nckh = relationship("NhomNCKH", back_populates="giang_vien")
     tvhd_khoa = relationship("TVHDKhoa", back_populates="giang_vien")
+    
     de_tai_gv = relationship("DeTaiNCKHGV", secondary=giangvien_detainckhgv_table, back_populates="giang_vien")
     huong_nghien_cuu = relationship("HuongNghienCuu", secondary=giangvien_hnc_table, back_populates="giang_vien")
+    
+    hoc_vi = relationship("HocVi", back_populates="giang_vien", cascade="all, delete-orphan")
+    trinh_do_hoc_van = relationship("TrinhDoHocVan", back_populates="giang_vien", cascade="all, delete-orphan")
+    chuc_danh_khoa_hoc = relationship("ChucDanhKhoaHoc", back_populates="giang_vien", cascade="all, delete-orphan")
+    khoa_dao_tao = relationship("KhoaDaoTao", back_populates="giang_vien", cascade="all, delete-orphan")
+    trinh_do_ngoai_ngu = relationship("TrinhDoNgoaiNgu", back_populates="giang_vien", cascade="all, delete-orphan")
+    qua_trinh_cong_tac = relationship("QuaTrinhCongTac", back_populates="giang_vien", cascade="all, delete-orphan")
+    sach_bao_cong_bo = relationship("SachBaoCongBo", back_populates="giang_vien", cascade="all, delete-orphan")
+    phat_minh_sang_che = relationship("PhatMinhSangChe", back_populates="giang_vien", cascade="all, delete-orphan")
+    de_tai_khcn = relationship("DeTaiKHCN", back_populates="giang_vien", cascade="all, delete-orphan")
+    giai_thuong_khcn = relationship("GiaiThuongKHCN", back_populates="giang_vien", cascade="all, delete-orphan")
+    hoat_dong_cao_hoc = relationship("HoatDongCaoHoc", back_populates="giang_vien", cascade="all, delete-orphan")
+    hoat_dong_giang_day = relationship("HoatDongGiangDay", back_populates="giang_vien", cascade="all, delete-orphan")
 
-# MODEL THÔNG BÁO 
+# MODEL THÔNG BÁO
+#model thông báo 
 class ThongBao(Base):
     __tablename__ = "ThongBao"
 
@@ -161,6 +181,7 @@ class ThongBao(Base):
 
 
 # MODEL HỘI ĐỒNG
+#model hội đồng khoa
 class HoiDongKhoa(Base):
     __tablename__ = "HoiDongKhoa"
 
@@ -177,6 +198,7 @@ class HoiDongKhoa(Base):
     tai_lieu_sv = relationship("TaiLieuNCKHSV", back_populates="hd_khoa")
     tvhd_khoa = relationship("TVHDKhoa", back_populates="hd_khoa")
 
+#model thành viên hội đồng khoa
 class TVHDKhoa(Base):
     __tablename__ = "TVHDKhoa"
 
@@ -188,6 +210,7 @@ class TVHDKhoa(Base):
     giang_vien = relationship("GiangVien", back_populates="tvhd_khoa")
     hd_khoa = relationship("HoiDongKhoa", back_populates="tvhd_khoa")
 
+#model hội đồng trường
 class HoiDongTruong(Base):
     __tablename__ = "HoiDongTruong"
 
@@ -203,6 +226,7 @@ class HoiDongTruong(Base):
     tai_lieu_sv = relationship("TaiLieuNCKHSV", back_populates="hd_truong")
     tvhd_truong = relationship("TVHDTruong", back_populates="hd_truong")
 
+#model thành viên hội đồng trường
 class TVHDTruong(Base):
     ma_tv = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -216,6 +240,7 @@ class TVHDTruong(Base):
     hd_truong = relationship("HoiDongTruong", back_populates="tvhd_truong")
 
 # MODEL ĐỀ TÀI NCKH SINH VIÊN
+#model đăng ký nckh
 class DangKyNCKH(Base):
     __tablename__ = "DangKyNCKH"
 
@@ -227,18 +252,20 @@ class DangKyNCKH(Base):
     nguyen_vong = relationship("NguyenVongDK", back_populates="dk_nckh")
     huong_nghien_cuu = relationship("HuongNghienCuu", secondary=hnc_dknckh_table, back_populates="dk_nckh")
 
+#model nguyện vọng đăng ký
 class NguyenVongDK(Base):
     __tablename__ = "NguyenVongDK"
 
     #thuoc tinh
     ma_dk = Column(Integer, ForeignKey("DangKyNCKH.ma_dk"), primary_key=True)
-    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_dk"))
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_dk"), primary_key=True)
     muc_uu_tien = Column(Integer, nullable=False)
     trang_thai = Column(Integer, nullable=False, default=1)
     #relationship
     giang_vien = relationship("GiangVien", back_populates="nguyen_vong")
     dk_nckh = relationship("DangKyNCKH", back_populates="nguyen_vong")
 
+#model đề tài nckh sinh viên
 class DeTaiNCKHSV(Base):
     __tablename__ = "DeTaiNCKHSV"
 
@@ -254,6 +281,8 @@ class DeTaiNCKHSV(Base):
     tai_lieu_sv = relationship("TaiLieuNCKHSV", back_populates="de_tai_sv")
     khen_thuong = relationship("KhenThuong", secondary=khenthuong_detaiNCKHSV_table, back_populates="de_tai_sv")
     huong_nghien_cuu = relationship("HuongNghienCuu", secondary=hnc_detaiNCKHSV_table, back_populates="de_tai_sv")
+
+#model tài liệu nckh sinh viên
 class TaiLieuNCKHSV(Base):
     __tablename__ = "TaiLieuNCKHSV"
 
@@ -272,7 +301,7 @@ class TaiLieuNCKHSV(Base):
     hd_khoa = relationship("HoiDongKhoa", back_populates="tai_lieu_sv")
     hd_truong = relationship("HoiDongTruong", back_populates="tai_lieu_sv")
 
-
+#model nhóm nckh
 class NhomNCKH(Base):
     __tablename__ = "NhomNCKH"
 
@@ -286,6 +315,7 @@ class NhomNCKH(Base):
     giang_vien = relationship("GiangVien", back_populates="nhom_nckh")
     sinh_vien = relationship("SinhVien", secondary=thanhvien_nhomSV_table, back_populates="nhom_nckh")
 # MODEL ĐỀ TÀI NCKH GIẢNG VIÊN
+#model đề tài nckh giảng viên
 class DeTaiNCKHGV(Base):
     __tablename__ = "DeTaiNCKHGV"
 
@@ -303,6 +333,7 @@ class DeTaiNCKHGV(Base):
     giang_vien = relationship("GiangVien", secondary=giangvien_detainckhgv_table, back_populates="de_tai_gv")
     huong_nghien_cuu = relationship("HuongNghienCuu", secondary=hnc_detaiNCKHGV_table, back_populates="de_tai_gv")
 
+#model tài liệu nckh giảng viên
 class TaiLieuNCKHGV(Base):
     __tablename__ = "TaiLieuNCKHGV"
 
@@ -318,4 +349,168 @@ class TaiLieuNCKHGV(Base):
     #relationship
     de_tai_gv = relationship("DeTaiNCKHGV", back_populates="tai_lieu_gv")
     hd_truong = relationship("HoiDongTruong", back_populates="tai_lieu_gv")
+
 # MODEL SƠ YẾU LÝ LỊCH KHOA HỌC GIẢNG VIÊN
+#model học vị
+class HocVi(Base):
+    __tablename__ = "HocVi"
+    #thuoc tinh
+    ma_hv = Column(Integer, primary_key=True, autoincrement=True)
+    hoc_vi = Column(Integer, nullable=False)
+    nam_dat = Column(Integer, nullable=False)
+    nganh = Column(String(255), nullable=False)
+    chuyen_nganh = Column(Text, nullable=False)
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="hoc_vi", ondelete="CASCADE")
+
+#model chức danh khoa học
+class ChucDanhKhoaHoc(Base):
+    __tablename__ = "ChucDanhKhoaHoc"
+    #thuoc tinh
+    ma_cd = Column(Integer, primary_key=True, autoincrement=True)
+    chuc_danh = Column(String(255))
+    chuc_vu = Column(String(255))
+    nam_dat_pgs = Column(Integer)
+    nam_dat_gs = Column(Integer)
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="chuc_danh_khoa_hoc", ondelete="CASCADE")
+
+#model trình độ học vấn
+class TrinhDoHocVan(Base):
+    __tablename__ = "TrinhDoHocVan"
+    #thuoc tinh
+    ma_tdhv = Column(Integer, primary_key=True, autoincrement=True)
+    bac_dao_tao = Column(Integer, nullable=False)
+    chuyen_nganh = Column(String(255), nullable=False)
+    noi_dao_tao = Column(Text, nullable=False)
+    nam_tot_nghiep = Column(Integer, nullable=False)
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="trinh_do_hoc_van", ondelete="CASCADE")
+
+#model khóa đào tạo bồi dưỡng khác
+class KhoaDaoTao(Base):
+    __tablename__ = "KhoaDaoTao"
+    #thuoc tinh 
+    ma_kdt = Column(Integer, primary_key=True, autoincrement=True)
+    ten_kdt = Column(String(255), nullable=False)
+    noi_dao_tao = Column(Text, nullable=False)
+    tg_bat_dau = Column(Date, nullable=False)
+    tg_ket_thuc = Column(Date, nullable=False)
+    van_bang_chung_chi = Column(String(50), nullable=False)
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="khoa_dao_tao", ondelete="CASCADE")
+
+#model trình độ ngoại ngữ
+class TrinhDoNgoaiNgu(Base):
+    __tablename__ = "TrinhDoNgoaiNgu"
+    #thuoc tinh
+    ma_nn = Column(Integer, primary_key=True, autoincrement=True)
+    ngoai_ngu = Column(String(50), nullable=False)
+    nghe = Column(Integer)
+    noi = Column(Integer)
+    doc = Column(Integer)
+    viet = Column(Integer)
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="trinh_do_ngoai_ngu", ondelete="CASCADE")
+
+#model quá trình công tác
+class QuaTrinhCongTac(Base):
+    __tablename__ = "QuaTrinhCongTac"
+    #thuoc tinh
+    ma_ct = Column(Integer, primary_key=True, autoincrement=True)
+    nam_bat_dau = Column(Integer, nullable=False)
+    nam_ket_thuc = Column(Integer, nullable=False)
+    vi_tri = Column(String(255), nullable=False)
+    linh_vuc = Column(String(255), nullable=False)
+    co_quan = Column(Text, nullable=False)
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="qua_trinh_cong_tac", ondelete="CASCADE")
+
+#model hoạt động khoa học công nghệ và đào tạo
+class SachBaoCongBo(Base):
+    __tablename__ = "SachBaoCongBo"
+    #thuoc tinh
+    ma_sach = Column(Integer, primary_key=True, autoincrement=True)
+    ten_sach = Column(String(255), nullable=False)
+    vi_tri = Column(Boolean, nullable=False) #1: TG, 2: ĐTG
+    noi_xb = Column(Text, nullable=False)
+    nam_xb = Column(Integer, nullable=False)
+    loai_sach = Column(Integer, nullable=False) # map_sach_bao
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="sach_bao_cong_bo", ondelete="CASCADE")
+
+#model phát minh sáng chế
+class PhatMinhSangChe(Base):
+    __tablename__ = "PhatMinhSangChe"
+    #thuoc tinh
+    ma_pmsc = Column(Integer, primary_key=True, autoincrement=True)
+    ten_pmsc = Column(String(255), nullable=False)
+    loai_pmsc = Column(String(255), nullable=False)
+    thong_tin = Column(Text, nullable=False)
+    tg_cap_bang = Column(Integer, nullable=False)
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="phat_minh_sang_che", ondelete="CASCADE")
+
+#model đề tài khcn
+class DeTaiKHCN(Base):
+    __tablename__ = "DeTaiKHCN"
+    #thuoc tinh
+    ma_dt_khcn = Column(Integer, primary_key=True, autoincrement=True)
+    ten_dt = Column(String(255), nullable=False)
+    cap_quan_ly = Column(String(255), nullable=False)
+    tg_thuc_hien = Column(Integer, nullable=False)
+    trang_thai = Column(Boolean, nullable=False, default=True) #true: đã nghiệm thu, false: chưa nghiệm thu
+    ket_qua = Column(String(20))
+    loai_de_tai = Column(Integer, nullable=False)#map_loai_de_tai_khcn
+    tu_cach = Column(Boolean, nullable=True)#true = chủ trì, false: thành viên
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="de_tai_khcn", ondelete="CASCADE")
+
+#model giải thưởng khcn
+class GiaiThuongKHCN(Base):
+    __tablename__ = "GiaiThuongKHCN"
+    #thuoc tinh
+    ma_gt_khcn = Column(Integer, primary_key=True, autoincrement=True)
+    noi_dung = Column(Text, nullable=False)
+    nam_tang_thuong = Column(Integer, nullable=False)
+    loai_giai_thuong = Column(Boolean, nullable=False) #true: giải thưởng, false: hoạt động
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="giai_thuong_khcn", ondelete="CASCADE")
+
+#model hoạt động giảng dạy sau đại học
+class HoatDongCaoHoc(Base):
+    __tablename__ = "HoatDongCaoHoc"
+    #thuoc tinh
+    ma_hdch = Column(Integer, primary_key=True, autoincrement=True)
+    ten_de_tai = Column(String(255), nullable=False)
+    vai_tro_hd = Column(Integer, nullable=False)#map_vai_tro_hd_cao_hoc
+    ten_nguoi_hoc = Column(String(255), nullable=False)
+    co_so_dao_tao = Column(Text, nullable=False)
+    hoc_vi_dao_tao = Column(Integer, nullable=False)#MAP_HOC_VI_DAO_TAO
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="hoat_dong_cao_hoc", ondelete="CASCADE")
+
+#model hoạt động giảng dạy
+class HoatDongGiangDay(Base):
+    __tablename__ = "HoatDongGiangDay"
+    #thuoc tinh
+    ma_hdgd = Column(Integer, primary_key=True, autoincrement=True)
+    ten_hoc_phan = Column(String(255), nullable=False)
+    chuyen_nganh = Column(String(255), nullable=False)
+    trinh_do = Column(Integer, nullable=False) #MAP_CAP_DO_GIANG_DAY
+    so_nam = Column(Integer, nullable=False)
+    noi_giang_day = Column(Text, nullable=False)
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="hoat_dong_giang_day", ondelete="CASCADE")
