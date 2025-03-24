@@ -20,12 +20,6 @@ taikhoan_thongbao_table = Table(
     Column("email", ForeignKey("TaiKhoan.email"), primary_key=True),
     Column("ma_tb", ForeignKey("ThongBao.ma_tb"), primary_key=True)
 )
-# Bảng Thành viên đề tài giảng viên: Giảng viên - đề tài NCKH GV
-giangvien_detainckhgv_table = Table (
-    "ThanhVienDeTaiGV", Base.metadata,
-    Column("ma_gv", String(20), ForeignKey("GiangVien.ma_gv"), primary_key=True),
-    Column("ma_de_tai", Integer, ForeignKey("DeTaiNCKHGV.ma_de_tai"), primary_key=True)
-)
 #Bảng Hướng Nghiên Cứu của giảng viên: Giảng Viên - Hướng Nghiên Cứu
 giangvien_hnc_table = Table (
     "GVHNC", Base.metadata,
@@ -146,7 +140,7 @@ class GiangVien(Base):
     nhom_nckh = relationship("NhomNCKH", back_populates="giang_vien")
     tvhd_khoa = relationship("TVHDKhoa", back_populates="giang_vien")
     
-    de_tai_gv = relationship("DeTaiNCKHGV", secondary=giangvien_detainckhgv_table, back_populates="giang_vien")
+    tv_de_tai_gv = relationship("ThanhVienNCKHGV", back_populates="de_tai_gv")
     huong_nghien_cuu = relationship("HuongNghienCuu", secondary=giangvien_hnc_table, back_populates="giang_vien")
     
     hoc_vi = relationship("HocVi", back_populates="giang_vien", cascade="all, delete-orphan")
@@ -325,13 +319,24 @@ class DeTaiNCKHGV(Base):
     tg_bat_dau = Column(DateTime, nullable=False)
     tg_nghiem_thu = Column(DateTime, nullable=False)
     tg_thuc_nghiem = Column(DateTime, nullable=False)
-    vi_tri_tham_gia = Column(Integer, nullable=False)
     trang_thai = Column(Integer, nullable=False, default=2)
     tien_do = Column(Integer, nullable=False, default=1)
     #relationship
     tai_lieu_gv = relationship("TaiLieuNCKHGV", back_populates="de_tai_gv")
-    giang_vien = relationship("GiangVien", secondary=giangvien_detainckhgv_table, back_populates="de_tai_gv")
     huong_nghien_cuu = relationship("HuongNghienCuu", secondary=hnc_detaiNCKHGV_table, back_populates="de_tai_gv")
+    tv_de_tai_gv = relationship("ThanhVienNCKHGV", back_populates="de_tai_gv")
+
+#model thành viên nckh giảng viên
+class ThanhVienNCKHGV(Base):
+    __tablename__ = "ThanhVienNCKHGV"
+
+    #thuoc phim
+    ma_de_tai = Column(Integer, ForeignKey("DeTaiNCKHGV.ma_de_tai"), primary_key=True)
+    ma_gv = Column(String(20), ForeignKey("GiangVien.ma_dk"), primary_key=True)
+    vi_tri_tham_gia = Column(Integer, nullable=False)
+    #relationship
+    giang_vien = relationship("GiangVien", back_populates="tv_de_tai_gv")
+    de_tai_gv = relationship("DeTaiNCKHGV", back_populates="tv_de_tai_gv")
 
 #model tài liệu nckh giảng viên
 class TaiLieuNCKHGV(Base):
