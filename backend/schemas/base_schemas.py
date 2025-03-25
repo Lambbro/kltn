@@ -37,6 +37,10 @@ class TaiKhoanBase(BaseModel):
 class TaiKhoanCreate(TaiKhoanBase):
     mat_khau: str = Field(..., min_length=8, max_length=255, description="Mật khẩu (chưa hash)")
 
+class TaiKhoanLogin(BaseModel):
+    email: str = Field(..., max_length=50, description="Email tài khoản")
+    mat_khau: str = Field(..., min_length=8, max_length=255, description="Mật khẩu (chưa hash)")
+
 class TaiKhoanUpdate(BaseModel):
     mat_khau: Optional[str] = Field(None, min_length=8, max_length=255, description="Mật khẩu (chưa hash)")
     quyen_han: Optional[int] = Field(None, description="Quyền hạn (ví dụ: 1: PhongKHDN, 2: ToNCKH, 3: GV, 4: SV)")
