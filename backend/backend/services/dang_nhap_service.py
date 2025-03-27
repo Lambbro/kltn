@@ -1,22 +1,17 @@
 import hashlib
 import jwt
-
 from datetime import datetime, timezone, timedelta
-
 from database import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.future import select
-from models import base_models as models
+from repositories.taikhoan_repository import TaiKhoanRepository
 from schemas import base_schemas as schemas
 from fastapi import HTTPException
 from sqlalchemy.exc import SQLAlchemyError
 
-#Load secret key
-
-
 class DangNhapService:
     def __init__(self, db: AsyncSession):
         self.db = db
+        self.tai_khoan_repo = TaiKhoanRepository(db)
 
     @staticmethod
     def hash_password(password: str) -> str:
@@ -28,15 +23,14 @@ class DangNhapService:
         data.update({"exp": expire})
         return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
 
-    async def dang_nhap(self, dang_nhap: schemas.TaiKhoanLogin)  -> dict:
+    async def dang_nhap(self, dang_nhap: schemas.TaiKhoanLogin) -> dict:
         # Kiểm tra dữ liệu đầu vào
         if not dang_nhap.email or not dang_nhap.mat_khau:
             raise HTTPException(status_code=400, detail="Email và mật khẩu không được để trống")
 
         try:
-            query = select(models.TaiKhoan).where(models.TaiKhoan.email == dang_nhap.email)
-            result = await self.db.execute(query)
-            tai_khoan = result.scalars().first()
+            # Lấy tài khoản từ repository
+            tai_khoan = await self.tai_khoan_repo.get(dang_nhap.email)
 
             if tai_khoan is None or tai_khoan.mat_khau != self.hash_password(dang_nhap.mat_khau):
                 raise HTTPException(status_code=401, detail="Tên đăng nhập hoặc mật khẩu không đúng")
@@ -45,13 +39,15 @@ class DangNhapService:
             access_token = self.create_access_token(
                 data={"sub": tai_khoan.email, "quyen_han": tai_khoan.quyen_han}
             )
-            
+
             return {
                 "email": tai_khoan.email,
                 "quyen_han": tai_khoan.quyen_han,
                 "access_token": access_token,
                 "token_type": "bearer"
             }
-
-        except SQLAlchemyError:
-            raise HTTPException(status_code=500, detail="Lỗi kết nối cơ sở dữ liệu")
+        
+        except SQLAlchemyError as e:
+            raise HTTPException(status_code=500, detail=f"Lỗi truy vấn cơ sở dữ liệu: {str(e)}")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Lỗi hệ thống: {str(e)}")

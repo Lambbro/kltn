@@ -23,7 +23,7 @@ huong_nghien_cuu_list = [
     "An toàn thông tin và Bảo mật dữ liệu",
     "Công nghệ môi trường và Biến đổi khí hậu",
     "Năng lượng tái tạo và Kỹ thuật môi trường",
-    "Quản trị chuỗi cung ứng và Logistics",
+    "Quản trị chuỗi cung ứng và Logistics"
 ]
 
 # Dictionary Khoa

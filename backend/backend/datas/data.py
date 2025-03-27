@@ -43,9 +43,9 @@ def random_cccd(basodau:str, nam_sinh, gioi_tinh):
     return f"{basodau}{so_thu_tu}{str(nam_sinh)[2:]}{so_ngau_nhien}"
 
 #tạo mã sinh viên
-def random_masv(khoa_hoc, stt):
+def random_masv(khoa_hoc, stt, ma_khoa):
     ma = khoa_hoc%2000
-    return f"{ma}A10010{stt:04d}"
+    return f"{ma}A10{ma_khoa[-2:]}0{stt:04d}"
 
 # Hàm random mã khoa
 def random_ma_khoa():
@@ -60,9 +60,9 @@ def create_sv(stt, tuoi):
     sdt = random_sdt()
     khoa_hoc, lop_hc = random_lophc(ngay_sinh.year)
     cccd = random_cccd(cccd_baso, ngay_sinh.year, gioi_tinh)
-    ma_sv = random_masv(khoa_hoc, stt)
-    email = f"{ma_sv}@students.hou.edu.vn"
     ma_khoa = random_ma_khoa()
+    ma_sv = random_masv(khoa_hoc, stt, ma_khoa)
+    email = f"{ma_sv}@students.hou.edu.vn"
     
     return {
         "ma_sv": ma_sv,
@@ -72,7 +72,7 @@ def create_sv(stt, tuoi):
         "ngay_sinh": ngay_sinh,
         "que_quan": que_quan,
         "sdt": sdt,
-        "lop_hanh_chinh": lop_hc,
+        "lop_hc": lop_hc,
         "khoa_hoc": khoa_hoc,
         "email": email,
         "ma_khoa": ma_khoa
@@ -93,7 +93,7 @@ def create_gv():
     sdt = random_sdt()
     cccd = random_cccd(cccd_baso, ngay_sinh.year, gioi_tinh)
     ma_khoa = random_ma_khoa()
-    ma_gv = f"GV{ngay_sinh.day:02d}{ngay_sinh.month:02d}{ngay_sinh.year:04d}{ma_khoa}"
+    ma_gv = f"GV{ngay_sinh.day:02d}{ngay_sinh.month:02d}{ngay_sinh.year:04d}{ma_khoa}{cccd[-6:]}"
     email = f"{ma_gv}@hou.edu.vn"
 
     return {

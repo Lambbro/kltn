@@ -111,6 +111,8 @@ class GiangVienBase(BaseModel):
     ngay_sinh: date = Field(..., description="Ngày sinh") 
     que_quan: Optional[str] = Field(None, max_length=255, description="Quê quán")
     sdt: Optional[str] = Field(None, max_length=10, description="Số điện thoại")
+    don_vi_cong_tac: Optional[str] = Field(None, max_length=255, description="Đơn vị công tác")
+    dia_chi_cong_tac: Optional[str] = Field(None, description="Địa chỉ công tác")
     email: Optional[str] = Field(None, max_length=50, description="Email tài khoản")  
     ma_khoa: Optional[str] = Field(None, max_length=20, description="Mã khoa")  
 
@@ -126,6 +128,8 @@ class GiangVienUpdate(BaseModel):
     ngay_sinh: Optional[date] = Field(None, description="Ngày sinh")
     que_quan: Optional[str] = Field(None, max_length=255, description="Quê quán")
     sdt: Optional[str] = Field(None, max_length=10, description="Số điện thoại")
+    don_vi_cong_tac: Optional[str] = Field(None, max_length=255, description="Đơn vị công tác")
+    dia_chi_cong_tac: Optional[str] = Field(None, description="Địa chỉ công tác")
     email: Optional[str] = Field(None, max_length=50, description="Email tài khoản")
     ma_khoa: Optional[str] = Field(None, max_length=20, description="Mã khoa")
 

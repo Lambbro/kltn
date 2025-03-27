@@ -131,6 +131,8 @@ class GiangVien(Base):
     ngay_sinh = Column(Date, nullable=False)
     que_quan = Column(String(255))
     sdt = Column(String(10), unique=True, nullable=True)
+    don_vi_cong_tac = Column(String(255), nullable=False)
+    dia_chi_cong_tac = Column(Text)
     email = Column(String(50), ForeignKey("TaiKhoan.email", ondelete="SET NULL"), nullable=True)  # Cho phép NULL
     ma_khoa = Column(String(20), ForeignKey("Khoa.ma_khoa", ondelete="SET NULL"), nullable=True)
     #relationship

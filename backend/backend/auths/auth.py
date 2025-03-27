@@ -28,10 +28,6 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-
-        print(f"Token nhận được: {token}")  # Debug
-        print(f"Payload sau khi decode: {payload}")  # Debug
-
         email: str = payload.get("sub")
         quyen_han: str = payload.get("quyen_han")
 
