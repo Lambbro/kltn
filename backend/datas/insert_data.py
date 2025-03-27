@@ -29,6 +29,7 @@ async def insert_sinh_vien(session: AsyncSession, slg_sv=500):
         for j in range(slg):
             sv_data = data.create_sv(j+1,i)
             email = sv_data["email"]
+            print(email, '\n')
             default_mat_khau = hash_password("88888888")
             # Tạo tài khoản trước
             tai_khoan = models.TaiKhoan(email=email, mat_khau=default_mat_khau, quyen_han=4)
