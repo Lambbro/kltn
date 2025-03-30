@@ -1,11 +1,8 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from database import engine, Base
-
+from fastapi.middleware.cors import CORSMiddleware
 from routers import (
-    # sinh_vien_router, tai_khoan_router, khoa_router, 
-    # huong_nc_router, giang_vien_router,
-    # syll_router
     dang_nhap_router, quan_ly_router, detai_sv_router
 )
 
@@ -23,19 +20,20 @@ app = FastAPI(
     lifespan=lifespan  # Truyền lifespan vào app
 )
 
-# Đăng ký các router
-# app.include_router(khoa_router.router)
-# app.include_router(huong_nc_router.router)
-# app.include_router(tai_khoan_router.router)
-# app.include_router(sinh_vien_router.router)
-# app.include_router(giang_vien_router.router)
-# app.include_router(syll_router.hoc_vi_router)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # URL của frontend Vue.js
+    allow_credentials=False,  # Quan trọng để gửi cookie
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-app.include_router(quan_ly_router.router)
-app.include_router(dang_nhap_router.router)
-app.include_router(detai_sv_router.router)
+# Đăng ký các router
+app.include_router(quan_ly_router.ql_router)
+app.include_router(dang_nhap_router.dn_router)
+app.include_router(detai_sv_router.dtsv_router)
 
 # Chạy ứng dụng
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
