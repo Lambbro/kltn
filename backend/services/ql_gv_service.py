@@ -27,23 +27,20 @@ class QLGiangVienService:
             if existing_account:
                 raise HTTPException(status_code=400, detail="Email đã tồn tại")
 
-            async with self.db.begin():  # Mở transaction
-                # Tạo tài khoản trước
-                tai_khoan_data = {
-                    "email": giang_vien.email,
-                    "mat_khau": self.hash_password(giang_vien.cccd),
-                    "quyen_han": giang_vien.quyen_han
-                }
-                db_tai_khoan = await self.tk_repo.create(tai_khoan_data)
+            # Tạo tài khoản trước
+            tai_khoan_data = {
+                "email": giang_vien.email,
+                "mat_khau": self.hash_password(giang_vien.cccd),
+                "quyen_han": giang_vien.quyen_han
+            }
+            db_tai_khoan = await self.tk_repo.create(tai_khoan_data)  # Nếu repo đã commit, không cần transaction
 
-                # Tạo giảng viên (bỏ `quyen_han` vì nó đã lưu trong tài khoản)
-                giang_vien_data = giang_vien.model_dump(exclude={"quyen_han"})
-                db_giang_vien = await self.gv_repo.create(giang_vien_data)
+            # Tạo giảng viên (bỏ `quyen_han` vì nó đã lưu trong tài khoản)
+            giang_vien_data = giang_vien.model_dump(exclude={"quyen_han"})
+            db_giang_vien = await self.gv_repo.create(giang_vien_data)
 
-                await self.db.commit()  # Commit sau khi tạo mới
-
+            await self.db.commit()
             return GiangVienResponse.model_validate(db_giang_vien)
-
         except IntegrityError:
             raise HTTPException(status_code=400, detail="Email đã tồn tại")
         except SQLAlchemyError as e:
