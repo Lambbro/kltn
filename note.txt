@@ -39,6 +39,12 @@ B7: tạo main.py
 B8: chạy thử
 B9: tích hợp tính năng nâng cao
 
+----
+DATABASE_URL=mysql+aiomysql://root:1234@localhost:3306/db_kltn
+SECRET_KEY="nguyenquanganhdepzai"
+ALGORITHM="HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES=300
+----
 ///
 Các trang web
 - Trang chủ
