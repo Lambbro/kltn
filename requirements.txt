@@ -5,3 +5,5 @@ aiomysql
 pydantic
 alembic
 python-dotenv
+PyJWT
+python-multipart
