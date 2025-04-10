@@ -84,6 +84,18 @@ class SinhVienBase(BaseModel):
 class SinhVienCreate(SinhVienBase):
     pass
 
+class SinhVienCreateReal(BaseModel):
+    ma_sv: str = Field(..., max_length=20, description="Mã sinh viên")
+    ten_sv: str = Field(..., max_length=255, description="Tên sinh viên")
+    cccd: str = Field(..., max_length=12, description="Căn cước công dân")
+    gioi_tinh: bool = Field(..., description="Giới tính")
+    ngay_sinh: date = Field(..., description="Ngày sinh")
+    que_quan: Optional[str] = Field(None, max_length=255, description="Quê quán")
+    sdt: Optional[str] = Field(None, max_length=10, description="Số điện thoại")
+    lop_hc: str = Field(..., max_length=15, description="Lớp hành chính")
+    khoa_hoc: int = Field(..., description="Khóa học")
+    ma_khoa: str = Field(..., max_length=20, description="Mã khoa")
+
 class SinhVienUpdate(BaseModel):
     ten_sv: Optional[str] = Field(None, max_length=255, description="Tên sinh viên")
     anh_dai_dien: Optional[str] = Field(None, description="Ảnh đại diện")

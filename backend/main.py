@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from database import engine, Base
 from fastapi.middleware.cors import CORSMiddleware
 from routers import (
-    dang_nhap_router, quan_ly_router, detai_sv_router
+    dang_nhap_router, phong_router, to_router, sinhvien_router, giangvien_router
 )
 
 @asynccontextmanager
@@ -29,9 +29,11 @@ app.add_middleware(
 )
 
 # Đăng ký các router
-app.include_router(quan_ly_router.ql_router)
+app.include_router(phong_router.ql_router)
 app.include_router(dang_nhap_router.dn_router)
-app.include_router(detai_sv_router.dtsv_router)
+app.include_router(sinhvien_router.sv_router)
+app.include_router(to_router.qlk_router)
+app.include_router(giangvien_router.gv_router)
 
 # Chạy ứng dụng
 if __name__ == "__main__":
