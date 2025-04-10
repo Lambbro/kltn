@@ -1,15 +1,19 @@
 """
 Mapping các biến trạng thái,... lưu dưới dạng Dictionary
 """
-
 # Bảng DangKyNCKH
-MAP_DANG_KY_NCKH_TRANG_THAI = {
+MAP_DANG_KY_TRANG_THAI = {
+    0: "Bị Hủy",
+    1: "Đang Chờ Duyệt",
+    2: "Đã Được Duyệt"
+}
+MAP_NGUYEN_VONG_TRANG_THAI = {
     0: "Bị Hủy",
     1: "Đang Chờ Duyệt",
     2: "Đã Được Duyệt"
 }
 
-MAP_DANG_KY_NCKH_MUC_UU_TIEN = {
+MAP_NGUYEN_VONG_MUC_UU_TIEN = {
     1: "Nguyện Vọng 1",
     2: "Nguyện Vọng 2"
 }
@@ -205,9 +209,12 @@ MAP_CAP_DO_GIANG_DAY = {
 }
 
 # Hàm tiện ích lấy giá trị từ dictionary
-def get_label(mapping, status_code):
+def get_label(mapping: dict, status_code):
     return mapping.get(status_code, "Lỗi trạng thái")
 
+def get_status_code(mapping: dict, label):
+    reverse_mapping = {v: k for k, v in mapping.items()}
+    return reverse_mapping.get(label, "Lỗi trạng thái")
 # Ví dụ sử dụng
 # print(get_label(MAP_DE_TAI_NCKHSV_TIEN_DO, 2))  # Output: Đã nộp đề cương
 # print(get_label(MAP_DE_TAI_NCKHGV_TRANG_THAI, 5))  # Output: Lỗi trạng thái

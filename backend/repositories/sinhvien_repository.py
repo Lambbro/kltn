@@ -9,10 +9,28 @@ class SinhVienRepository:
     async def get(self, ma_sv: str):
         result = await self.db.execute(select(SinhVien).where(SinhVien.ma_sv == ma_sv))
         return result.scalars().first()
+    
+    async def khoa_get(self, ma_sv:str, ma_khoa: str):
+        result = await self.db.execute(
+            select(SinhVien).where(SinhVien.ma_khoa == ma_khoa and SinhVien.ma_sv == ma_sv)
+        )
+        return result.scalars().first()
 
     async def get_all(self, skip: int = 0, limit: int = 100):
         result = await self.db.execute(
             select(SinhVien).offset(skip).limit(limit)
+        )
+        return result.scalars().all()
+    
+    async def khoa_get_all(self, ma_khoa:str, skip: int = 0, limit: int = 100):
+        result = await self.db.execute(
+            select(SinhVien).where(SinhVien.ma_khoa == ma_khoa).offset(skip).limit(limit)
+        )
+        return result.scalars().all()
+
+    async def get_all_by_khoa(self, ma_khoa: str, skip: int = 0, limit: int = 100):
+        result = await self.db.execute(
+            select(SinhVien).where(SinhVien.ma_khoa == ma_khoa).offset(skip).limit(limit)
         )
         return result.scalars().all()
 

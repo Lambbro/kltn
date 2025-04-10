@@ -9,9 +9,21 @@ class GiangVienRepository:
     async def get(self, ma_gv: str):
         result = await self.db.execute(select(GiangVien).where(GiangVien.ma_gv == ma_gv))
         return result.scalars().first()
-
+    
+    async def khoa_get(self, ma_gv: str, ma_khoa: str):
+        result = await self.db.execute(
+            select(GiangVien).where(GiangVien.ma_gv == ma_gv, GiangVien.ma_khoa == ma_khoa)
+        )
+        return result.scalars().first()
+    
     async def get_all(self):
         result = await self.db.execute(select(GiangVien))
+        return result.scalars().all()
+
+    async def khoa_get_all(self, ma_khoa: str):
+        result = await self.db.execute(
+            select(GiangVien).where(GiangVien.ma_khoa == ma_khoa)
+        )
         return result.scalars().all()
 
     async def create(self, giang_vien_data: dict):
