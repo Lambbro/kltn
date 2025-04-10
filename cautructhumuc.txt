@@ -1,4 +1,0 @@
-backend
-	- main.py (controller - fastapi)
-	- repository.py (sqlalchemy)
-	- models.py (models)
