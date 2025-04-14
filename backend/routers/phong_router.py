@@ -6,10 +6,10 @@ from typing import List
 from schemas import base_schemas as schemas
 import schemas.detai_sv_schemas as detai_sv_schemas
 from auths.auth import get_current_user, check_permission, check_higher_permission
-from services.phongkhdn import (
+from services import (
     ql_khoa_service, ql_hnc_service,
     ql_sv_service, ql_gv_service,
-    phong_nckhsv_dk_service
+    nckhsv_dk_service
 )
 
 ql_router = APIRouter(
@@ -260,34 +260,36 @@ async def lay_danh_sach_giang_vien(
 # 📌 QUẢN LÝ NCKH SV
 # ==========================
 # LẤY TẤT CẢ ĐĂNG KÝ (KÈM NGUYỆN VỌNG)
-@ql_router.get("/nckhsv/dk", response_model=List[detai_sv_schemas.DangKyNguyenVongResponse])
+@ql_router.get("/nckhsv/dk", response_model=List[detai_sv_schemas.DangKyNCKHSVResponse])
 async def get_all_dangky(
+    skip: int = 0,       # Mặc định bỏ qua 0 bản ghi
+    limit: int = 100,    # Mặc định lấy 100 bản ghi mỗi lần
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
     check_permission(current_user, 1)
-    service = phong_nckhsv_dk_service.PhongDangKyService(db)
-    list_dang_ky = await service.get_all()
+    service = nckhsv_dk_service.DangKyService(db)
+    list_dang_ky = await service.get_all(skip=skip, limit=limit)
     return list_dang_ky
 
 # LẤY CHI TIẾT ĐĂNG KÝ (KÈM NGUYỆN VỌNG)
-@ql_router.get("/nckhsv/dk/{ma_dk}", response_model=detai_sv_schemas.DangKyNguyenVongResponse)
+@ql_router.get("/nckhsv/dk/mdk/{ma_dk}", response_model=detai_sv_schemas.DangKyNCKHSVResponse)
 async def get_dangky_by_id(
     ma_dk: int, 
     db: AsyncSession = Depends(get_db), 
     current_user: dict = Depends(get_current_user)
 ):
     check_permission(current_user, 1)
-    service = phong_nckhsv_dk_service.PhongDangKyService(db)
-    return await service.get_by_id(ma_dk=ma_dk)
+    service = nckhsv_dk_service.DangKyService(db)
+    return await service.get(ma_dk=ma_dk)
 
 # LẤY ĐĂNG KÝ ĐANG THỰC HIỆN THEO MÃ SINH VIÊN (KÈM NGUYỆN VỌNG)
-@ql_router.get("/nckhsv/dk/{ma_sv}", response_model=detai_sv_schemas.DangKyNguyenVongResponse)
+@ql_router.get("/nckhsv/dk/msv/{ma_sv}", response_model=detai_sv_schemas.DangKyNCKHSVResponse)
 async def get_dangky_by_ma_sv(
     ma_sv: str, 
     db: AsyncSession = Depends(get_db), 
     current_user: dict = Depends(get_current_user)
 ):
     check_permission(current_user, 1)
-    service = phong_nckhsv_dk_service.PhongDangKyService(db)
-    return await service.get_by_ma_sv(ma_sv=ma_sv)
+    service = nckhsv_dk_service.DangKyService(db)
+    return await service.get(ma_sv=ma_sv)

@@ -88,31 +88,65 @@ async def insert_giang_vien(session: AsyncSession, slg_gv=250):
 #insert admin
 
 async def insert_admin(session: AsyncSession):
-    gv_data = {
-        "ma_gv": "ADMIN001",
-        "ten_gv": "admin",
-        "cccd": "001234567890",
-        "gioi_tinh": 1,
-        "ngay_sinh": date(1999, 1, 1),
-        "que_quan": "Hà Nội",
-        "sdt": "0123456789",
-        "don_vi_cong_tac": "Trường Đại học Mở Hà Nội",
-        "dia_chi_cong_tac": "Hà Nội",
-        "email": "admin@hou.edu.vn",
-        "ma_khoa": "K07"
-    }
-    email = gv_data["email"]
-    
-    # Tạo tài khoản trước với mật khẩu hashed
-    hashed_password = hash_password(gv_data["cccd"])
-    tai_khoan = models.TaiKhoan(email=email, mat_khau=hashed_password, quyen_han=1)
-    session.add(tai_khoan)
-    
-    # Tạo giảng viên sau khi tài khoản đã được thêm
-    giang_vien = models.GiangVien(**gv_data)
-    session.add(giang_vien)
+    # Dữ liệu cho giảng viên
+    gv_data_list = [
+        {
+            "ma_gv": "ADMIN001",
+            "ten_gv": "admin1",
+            "cccd": "001234567890",
+            "gioi_tinh": 1,
+            "ngay_sinh": date(1999, 1, 1),
+            "que_quan": "Hà Nội",
+            "sdt": "0123456789",
+            "don_vi_cong_tac": "Trường Đại học Mở Hà Nội",
+            "dia_chi_cong_tac": "Hà Nội",
+            "email": "admin@hou.edu.vn",
+            "ma_khoa": "K07"
+        },
+        {
+            "ma_gv": "ADMIN002",
+            "ten_gv": "admin2",
+            "cccd": "002234567890",
+            "gioi_tinh": 0,
+            "ngay_sinh": date(1985, 5, 10),
+            "que_quan": "Hải Phòng",
+            "sdt": "0987654321",
+            "don_vi_cong_tac": "Trường Đại học Quốc gia Hà Nội",
+            "dia_chi_cong_tac": "Hà Nội",
+            "email": "tonckh@hou.edu.vn",
+            "ma_khoa": "K07"
+        },
+        {
+            "ma_gv": "ADMIN003",
+            "ten_gv": "admin3",
+            "cccd": "003234567890",
+            "gioi_tinh": 1,
+            "ngay_sinh": date(1990, 7, 20),
+            "que_quan": "Đà Nẵng",
+            "sdt": "0912345678",
+            "don_vi_cong_tac": "Trường Đại học Bách khoa Hà Nội",
+            "dia_chi_cong_tac": "Hà Nội",
+            "email": "gv@hou.edu.vn",
+            "ma_khoa": "K07"
+        }
+    ]
 
+    # Tạo tài khoản và giảng viên cho mỗi người
+    for gv_data in gv_data_list:
+        email = gv_data["email"]
+        
+        # Tạo tài khoản với mật khẩu hashed cho mỗi người
+        hashed_password = hash_password(gv_data["cccd"])
+        tai_khoan = models.TaiKhoan(email=email, mat_khau=hashed_password, quyen_han=1)
+        session.add(tai_khoan)
+        
+        # Tạo giảng viên cho mỗi tài khoản
+        giang_vien = models.GiangVien(**gv_data)
+        session.add(giang_vien)
+    
+    # Cam kết các thay đổi vào cơ sở dữ liệu
     await session.commit()
+
 
 #Thêm khen thưởng
 async def insert_khen_thuong(session: AsyncSession):

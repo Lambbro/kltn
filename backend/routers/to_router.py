@@ -8,11 +8,11 @@ from schemas import base_schemas as schemas
 import schemas.detai_sv_schemas as detai_sv_schemas
 from auths.auth import get_current_user, check_permission, check_higher_permission
 
-from services.tonckh.khoa_sv_service import KhoaSinhVienService
-from services.tonckh.khoa_gv_service import KhoaGiangVienService
-from services.tonckh.khoa_nckhsv_dk_service import KhoaDangKyService
+from services.ql_sv_service import QLSinhVienService
+from services.ql_gv_service import QLGiangVienService
+from services.nckhsv_dk_service import DangKyService
 
-from services.giangvien.gv_nckhsv_nhom_service import GVNhomNCKHSVService
+from services.nckhsv_nhom_service import NhomNCKHSVService
 
 from repositories.service_repositories import get_ma_khoa_by_email
 
@@ -34,7 +34,7 @@ async def xem_sinh_vien(
     check_permission(current_user, 2)
     email = current_user.get("email")
     ma_khoa = await get_ma_khoa_by_email(db, email)
-    service = KhoaSinhVienService(db)
+    service = QLSinhVienService(db)
     return await service.get(ma_sv, ma_khoa)
 
 @qlk_router.get("/sinh-vien", response_model=List[schemas.SinhVienResponse])
@@ -47,7 +47,7 @@ async def xem_danh_sach_sv(
     check_permission(current_user, 2)
     email = current_user.get("email")
     ma_khoa = await get_ma_khoa_by_email(db, email)
-    service = KhoaSinhVienService(db)
+    service = QLSinhVienService(db)
     return await service.get_all(ma_khoa, skip, limit)
 
 # ==========================
@@ -63,7 +63,7 @@ async def xem_giang_vien(
     check_permission(current_user, 2)
     email = current_user.get("email")
     ma_khoa = await get_ma_khoa_by_email(db, email)
-    service = KhoaGiangVienService(db)
+    service = QLGiangVienService(db)
     return await service.get(ma_gv, ma_khoa)
 
 @qlk_router.get("/giang-vien", response_model=list[schemas.GiangVienResponse])
@@ -74,14 +74,14 @@ async def lay_danh_sach_giang_vien(
     check_permission(current_user, 2)
     email = current_user.get("email")
     ma_khoa = await get_ma_khoa_by_email(db, email)
-    service = KhoaGiangVienService(db)
+    service = QLGiangVienService(db)
     return await service.get_all(ma_khoa)
 
 # ==========================
 # 📌 QUẢN LÝ ĐĂNG KÝ NCKH SV
 # ==========================
 # LẤY TẤT CẢ ĐĂNG KÝ (KÈM NGUYỆN VỌNG)
-@qlk_router.get("/khoa_dang_ky/danh_sach", response_model=List[detai_sv_schemas.DangKyNguyenVongResponse])
+@qlk_router.get("/dang_ky/danh_sach", response_model=List[detai_sv_schemas.DangKyNCKHSVResponse])
 async def get_all_dangky(
     db: AsyncSession = Depends(get_db),
     current_user: dict = Depends(get_current_user)
@@ -89,12 +89,12 @@ async def get_all_dangky(
     check_permission(current_user, 2)
     email = current_user.get("email")
     ma_khoa = await get_ma_khoa_by_email(db, email)
-    service = KhoaDangKyService(db)
-    list_dang_ky = await service.khoa_get_all(ma_khoa=ma_khoa)
+    service = DangKyService(db)
+    list_dang_ky = await service.get_all(ma_khoa=ma_khoa)
     return list_dang_ky
 
 # LẤY CHI TIẾT ĐĂNG KÝ (KÈM NGUYỆN VỌNG)
-@qlk_router.get("/khoa_dangky/{ma_dk}", response_model=detai_sv_schemas.DangKyNguyenVongResponse)
+@qlk_router.get("/dangky/{ma_dk}", response_model=detai_sv_schemas.DangKyNCKHSVResponse)
 async def get_dangky_by_id(
     ma_dk: int, 
     db: AsyncSession = Depends(get_db), 
@@ -103,11 +103,11 @@ async def get_dangky_by_id(
     check_permission(current_user, 2)
     email = current_user.get("email")
     ma_khoa = await get_ma_khoa_by_email(db, email)
-    dang_ky_service = KhoaDangKyService(db)
-    return await dang_ky_service.khoa_get_by_id(ma_dk=ma_dk, ma_khoa=ma_khoa)
+    dang_ky_service = DangKyService(db)
+    return await dang_ky_service.get(ma_dk=ma_dk, ma_khoa=ma_khoa)
 
 # LẤY ĐĂNG KÝ ĐANG THỰC HIỆN THEO MÃ SINH VIÊN (KÈM NGUYỆN VỌNG)
-@qlk_router.get("/khoa_dangky_msv/{ma_sv}", response_model=detai_sv_schemas.DangKyNguyenVongResponse)
+@qlk_router.get("/dangky_msv/{ma_sv}", response_model=detai_sv_schemas.DangKyNCKHSVResponse)
 async def get_dangky_by_ma_sv(
     ma_sv: str, 
     db: AsyncSession = Depends(get_db), 
@@ -116,8 +116,8 @@ async def get_dangky_by_ma_sv(
     check_permission(current_user, 2)
     email = current_user.get("email")
     ma_khoa = await get_ma_khoa_by_email(db, email)
-    dang_ky_service = KhoaDangKyService(db)
-    return await dang_ky_service.khoa_get_by_ma_sv(ma_sv=ma_sv, ma_khoa=ma_khoa)
+    dang_ky_service = DangKyService(db)
+    return await dang_ky_service.get(ma_sv=ma_sv, ma_khoa=ma_khoa)
 
 # ==========================
 # 📌 QUẢN LÝ NHÓM NCKH SV
@@ -131,5 +131,5 @@ async def delete_nhom(
     check_higher_permission(current_user, 2)
     email = current_user.get("email")
     ma_khoa = await get_ma_khoa_by_email(db, email)
-    nhom_service = GVNhomNCKHSVService(db)
+    nhom_service = NhomNCKHSVService(db)
     return await nhom_service.delete(ma_nhom=ma_nhom, ma_khoa=ma_khoa)

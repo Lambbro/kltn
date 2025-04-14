@@ -173,7 +173,6 @@ Schemas đề tài sinh viên
 '''
 # Schema cho Nguyện Vọng Đăng Ký
 class NguyenVongDKBase(BaseModel):
-    ma_dk: int = Field(..., description="Mã đăng ký NCKH")
     ma_gv: str = Field(..., min_length=1, max_length=20, description="Mã giảng viên")
     muc_uu_tien: int = Field(..., ge=1, le=5, description="Mức ưu tiên từ 1 đến 5")
     trang_thai: int = Field(1, description="Trạng thái")
@@ -187,6 +186,8 @@ class NguyenVongDKUpdate(BaseModel):
     trang_thai: Optional[int] = Field(None, description="Trạng thái")
 
 class NguyenVongDKResponse(NguyenVongDKBase):
+    ma_dk: int = Field(..., description="Mã đăng ký NCKH")
+
     class Config:
         from_attributes = True
 
@@ -209,13 +210,16 @@ class DangKyNCKHResponse(DangKyNCKHBase):
 #Đề tài NCKH sinh viên schemas
 class DeTaiNCKHSVBase(BaseModel):
     ten_de_tai: str = Field(..., max_length=255, description="Tên đề tài")
-    dot_thuc_hien: int = Field(..., descript0ion="Đợt thực hiện")
-    trang_thai: int = Field(..., description="Trạng thái đề tài")
-    tien_do: int = Field(..., description="Tiến độ thực hiện")
+    dot_thuc_hien: int = Field(..., description="Đợt thực hiện")
+    trang_thai: int = Field(1, description="Trạng thái đề tài")
+    tien_do: int = Field(1, description="Tiến độ thực hiện")
     diem_so: Optional[int] = Field(None, description="Điểm số của đề tài") 
 
-class DeTaiNCKHSVCreate(DeTaiNCKHSVBase):
-    pass
+class DeTaiNCKHSVCreate(BaseModel):
+    ten_de_tai: str = Field(..., max_length=255, description="Tên đề tài")
+    dot_thuc_hien: int = Field(default_factory=lambda: datetime.now().year, description="Đợt thực hiện")
+    trang_thai: int = Field(default=1, description="Trạng thái đề tài")
+    tien_do: int = Field(default=1, description="Tiến độ thực hiện")
 
 class DeTaiNCKHSVUpdate(BaseModel):
     ten_de_tai: Optional[str] = Field(None, max_length=255, description="Tên đề tài")
@@ -262,17 +266,15 @@ class TaiLieuNCKHSVResponse(TaiLieuNCKHSVBase):
 
 #Nhóm NCKH schemas
 class NhomNCKHBase(BaseModel):
+    ma_gv: str = Field(..., max_length=20, description="Mã giảng viên hướng dẫn")
     trang_thai: int = Field(1, description="Trạng thái nhóm NCKH")
-    ma_gv: Optional[str] = Field(None, max_length=20, description="Mã giảng viên hướng dẫn")
     ma_de_tai: Optional[int] = Field(None, description="Mã đề tài NCKH")
 
-class NhomNCKHCreate(NhomNCKHBase):
-    pass
+class NhomNCKHCreate(BaseModel):
+    ma_gv: str = Field(..., max_length=20, description="Mã giảng viên hướng dẫn")
 
 class NhomNCKHUpdate(BaseModel):
-    trang_thai: Optional[int] = Field(None, description="Trạng thái nhóm NCKH")
-    ma_gv: Optional[str] = Field(None, description="Mã giảng viên hướng dẫn")
-    ma_de_tai: Optional[int] = Field(None, description="Mã đề tài NCKH")
+    trang_thai: Optional[int] = Field(1, description="Trạng thái nhóm NCKH")
 
 class NhomNCKHResponse(NhomNCKHBase):
     ma_nhom: int = Field(..., description="Mã nhóm NCKH")
