@@ -1,9 +1,0 @@
-fastapi
-uvicorn
-sqlalchemy
-aiomysql
-pydantic
-alembic
-python-dotenv
-PyJWT
-python-multipart
