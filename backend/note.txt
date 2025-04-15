@@ -1,0 +1,94 @@
+///
+backend
+	> alembic
+		> versions
+			- các phiên bản migrations
+	> models
+		- models.py: các model của dự án
+		- note.txt: note về tham chiếu biến int sang enum
+	> repositories
+		- repository.py: repository của các model chính
+		- nckh_repository.py: repository của các model về nckh
+		- syll_repository.py: repository của các model về sơ yếu lý lịch khoa học giảng viên
+	> routes
+	> schemas
+		- schemas.py: schemas của model chính
+		- nckh_schemas.py: schemas của model nckh
+		- syll_schemas.py: schemas của model syll
+	> vmodels
+	- alembic.ini
+	- database.py
+	- main.py
+
+///
+B1: Tạo models trong file models.py
+B2: Tạo file database.py để cài đặt dotenv
+B3: Tạo database trong mysql và thêm connectionstring vào env với tk mk
+B4: Tạo alembic
+- alembic init alembic -> ra folder alembic
+- chỉnh sửa env.py theo dotenv và thêm import models
+- chạy alembic revision --autogenerate -m "Initial migration" để tạo bảng
+- chạy alembic upgrade head để ghi từ migration vào database
+B5: Tạo schemas cho từng model
+- Base Schemas: dùng cho thuộc tính chung 
+- Read Schemas: Dùng kế thừa base schemas dùng để đọc và trả về thông tin
+- Update Schemas: Dùng để cập nhật thông tin Schemas
+	- Chưa orm_mode = True dùng để làm việc với sqlalchemy
+B6: tạo repository
+B7: tạo main.py 
+B8: chạy thử
+B9: tích hợp tính năng nâng cao
+
+///
+Các trang web
+- Trang chủ
+- Trang nckh
+	- Trang nckh sinh viên
+		- Trang danh sách các NCKH của sinh viên
+		- Trang chi tiết NCKH SV
+		- Trang đăng ký tham dự NCKH
+		- Trang danh sách sinh viên đăng ký tham dự
+		- Trang danh sách nhóm
+		- Trang chi tiết nhóm đề tài
+		- Trang chi tiết đề tài NCKH
+		- Trang tài liệu NCKH
+	- Trang nckh giảng viên
+		- Trang nộp tài liệu
+		- Trang danh sách đề tài GV tổng
+		- Trang danh sách đề tài GV của mình
+		- Trang chi tiết đề tài GV
+- Trang cá nhân
+	- Trang thông tin sinh viên
+	- Trang thông tin giảng viên
+	- Trang danh sách sinh viên
+	- Trang danh sách giảng viên
+- Trang đăng ký
+- Trang đăng nhập
+- Trang 404
+- Trang tìm kiếm
+- Trang FAQ
+- Trang tin tức/thông báo
+- Trang liên hệ
+
+Phòng QLKHDN:
+- Trang Quản lý người Dùng
+- Trang quản lý khoa
+- Trang quản lý hướng nckh
+- Trang quản lý đợt thực hiện nckh
+- Trang quản lý nckh giảng viên
+- Trang danh sách tài liệu nckh giảng viên
+Tổ NCKH:
+- Trang danh sách nckh sinh viên
+- Trang danh sách tài liệu nckh sinh viên
+- Trang quản lý nhóm nckh
+GV:
+- Trang đề tài
+SV:
+- Trang đăng ký tham gia
+- Trang nộp tài liệu
+Chung:
+- Trang chủ
+- Trang tìm kiếm
+- Trang FAQ
+- Trang tin tức/thông báo
+- Trang liên hệ
