@@ -21,8 +21,7 @@ class NhomNCKHSVService:
         if len(dssv) > 3:
             raise HTTPException(status_code=400, detail="Nhóm tối đa 3 thành viên")
         try:
-            nhom_data = NhomNCKHCreate
-            nhom_data.ma_gv = ma_gv
+            nhom_data = NhomNCKHCreate(ma_gv=ma_gv)
             active_groups_result = await self.db.execute(
                 select(NhomNCKH)
                 .where(NhomNCKH.ma_gv == nhom_data.ma_gv, NhomNCKH.trang_thai == 1)

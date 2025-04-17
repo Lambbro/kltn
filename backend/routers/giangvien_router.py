@@ -35,18 +35,20 @@ async def get_dssv_by_dk(
 async def add_nhom(
     dssv: List[str],
     detai: schemas.DeTaiNCKHSVCreate,
+    ma_gv: Optional[str] = None,
     db: AsyncSession = Depends(get_db), 
     current_user: dict = Depends(get_current_user)
 ):
-    email = current_user.get("email")
-    ma_gv = get_ma_gv_by_email(email)
+    if not ma_gv:
+        email = current_user.get("email")
+        ma_gv = await get_ma_gv_by_email(db, email)
     nhom_service = NhomNCKHSVService(db)
     return await nhom_service.add(ma_gv=ma_gv, dssv=dssv, detainckhsv_data=detai)
 
 @gv_router.get("/nhomnckh", response_model=List[detai_sv_schemas.NhomNCKHSVResponse])
 async def get_all_nhom(
     db: AsyncSession = Depends(get_db), 
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user) 
 ):
     email = current_user.get("email")
     ma_khoa = await get_ma_khoa_by_email(db, email)
