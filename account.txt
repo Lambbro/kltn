@@ -1,0 +1,133 @@
+Khoa Luật
+    ToNCKH:
+        tonckhLuat@hou.edu.vn
+        999999999997
+    Giảng viên:
+        GV03101968K05855621@hou.edu.vn
+        266068855621
+
+        GV04011996K05669746@hou.edu.vn
+        092096669746
+
+        GV07081990K05040430@hou.edu.vn
+        227090040430
+    Sinh viên:
+        21A100500253@students.hou.edu.vn
+        285103596411
+
+        21A100500265@students.hou.edu.vn
+        268203084504
+
+        21A100500068@students.hou.edu.vn
+        260103840967
+
+        24A100500196@students.hou.edu.vn
+        205106278738
+
+        24A100500301@students.hou.edu.vn
+        289206290861
+
+        25A100500103@students.hou.edu.vn
+        251107208496
+
+//sever lamb 
+khoa công nghệ thông tin
+
+    tonckh@hou.edu.vn
+    002234567890
+
+    giang vien:
+        GV01091992K07772825@hou.edu.vn
+        215092772825
+
+        GV18051976K07327946@hou.edu.vn -- quyền tổ 
+        259076327946
+
+        GV18121969K07229558@hou.edu.vn -- tổ
+        269169229558
+
+        GV19121964K07607873@hou.edu.vn
+        211164607873
+
+        GV20111951K07071126@hou.edu.vn
+        228151071126
+
+    sinh vien
+
+        21A100700013@students.hou.edu.vn
+        205103085347
+
+        21A100700028@students.hou.edu.vn
+        248203864689	
+
+        21A100700033@students.hou.edu.vn
+        289103217328
+
+        21A100700044@students.hou.edu.vn
+        247103976304
+
+        21A100700013@students.hou.edu.vn
+        205103085347
+
+
+accout dùng test chính
+        khoacntt@hou.edu.vn
+        001234567898
+
+    Giảng viên:
+1       GV02021961K07413920@hou.edu.vn
+        246061413920
+
+1        GV03051983K07614214@hou.edu.vn
+        244083614214
+
+1        GV04071985K07301054@hou.edu.vn
+        246185301054
+
+1        GV06101954K07017406@hou.edu.vn
+        285054017406
+
+        GV08081964K07385210@hou.edu.vn
+        296164385210
+
+        GV08111998K07077100@hou.edu.vn
+        267198077100
+
+        GV08121950K07012978@hou.edu.vn
+        290050012978
+
+        GV11011986K07254775@hou.edu.vn
+        258086254775
+    
+    Sinh viên:
+1       21A100700010@students.hou.edu.vn
+       213103903563
+
+1       21A100700012@students.hou.edu.vn
+        218103386452
+
+1        21A100700020@students.hou.edu.vn
+        205203035180
+
+1        21A100700033@students.hou.edu.vn
+        213103152813
+
+1        21A100700053@students.hou.edu.vn
+        260203288117
+
+1        21A100700061@students.hou.edu.vn  
+        250203400332
+
+1        21A100700195@students.hou.edu.vn   //Tống Xuân Đức
+        079203067240
+
+ 1       21A100700208@students.hou.edu.vn  // Mạc Thu hạnh
+        270203446373
+
+1        21A100700213@students.hou.edu.vn  // Định Nhật Đạt
+        286203500884
+
+        21A100700217@students.hou.edu.vn  // Lê Hữu Cường
+        290203700809	
+
+

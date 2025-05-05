@@ -33,7 +33,7 @@ class SinhVien(Base):
     
     ma_sv = Column(String(20), primary_key=True)
     ten_sv = Column(String(100), nullable=False)
-    cccd = Column(String(12), unique=True, nullable=False)
+    cccd = Column(String(15), unique=True, nullable=False)
     gioi_tinh = Column(Boolean, nullable=False)
     ngay_sinh = Column(Date, nullable=False)
     que_quan = Column(String(150), nullable=True)
@@ -48,7 +48,7 @@ class GiangVien(Base):
 
     ma_gv = Column(String(20), primary_key=True)
     ten_gv = Column(String(100), nullable=False)
-    cccd = Column(String(12), unique=True, nullable=False)
+    cccd = Column(String(15), unique=True, nullable=False)
     gioi_tinh = Column(Boolean, nullable=False)
     ngay_sinh = Column(Date, nullable=False)
     que_quan = Column(String(150), nullable=True)
@@ -215,7 +215,7 @@ class DeTaiKHCN(Base):
     trang_thai = Column(Enum, nullable=True)
     ket_qua = Column(Enum, nullable=True)
     loai_de_tai = Column(Enum("DeTaiNhiemVu, DeAnDuAn, ChuongTrinh, DuAnQuocTe"), nullable=True)
-    tu_cach_tham_gia = Column(String, nullable=True)
+    tu_cach_tham_gia = Column(String(150), nullable=True)
     ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), nullable=False)
 
 
@@ -266,7 +266,7 @@ class NguyenVongDangKyNCKH(Base):
     ma_gv = Column(String(20), ForeignKey("GiangVien.ma_gv"), primary_key=True)
     muc_uu_tien = Column(Integer, nullable=False)
     trang_thai = Column(Enum("DangCho", "DaTaoNhom", "DaHuy"), nullable=False)
-#GV_HuongNghienCu
+#GV_HuongNghienCuu
 gv_hnc_table = Table (
     "GVHuongNghienCuu", Base.metadata,
     Column("ma_gv", String(20), ForeignKey("GiangVien.ma_gv"), primary_key=True),

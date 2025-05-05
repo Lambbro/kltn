@@ -1,0 +1,12 @@
+Các chức năng cần làm:
+    + Cập nhật đăng ký tham gia nckh
+    + Cập nhật tài liệu nckh ( sinh viên có thể cập nhật được tài liệu đã đăng, hiện tại đang cho nộp theo 1 list file,
+    ở đây có cả phần phản hồi của hội đồng về tài liệu ý, tk em nhớ cho cả cập nhật nữa để làm chức năng bên tổ)
+        - Tóm lại: Chức năng phía 
+            - Sinh viên: Cho cập nhật tài liệu đã nộp (những thứ sẽ thay đổi: thời gian nộp, file nộp, trạng thái)
+            - Tổ : Chức năng đánh giá, gửi ý kiến phản hồi 
+    + Chức năng quản lý đề tài nckh sinh viên (cập nhật trạng thái là đề tài đã hoàn thành hay chưa)
+    + Chức năng hiện danh sách đề tài đã hoàn thành theo khoa, theo sinh viên
+    + Chức năng tổ cập nhật kết quả đề tài nckh sinh viên
+
+Sau này làm: Đề tài nckh giảng viên, hội đồng, thông báo 

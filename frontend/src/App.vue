@@ -1,26 +1,36 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-</template>
+<!-- <script setup>
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+const router = useRouter();
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+onMounted(async () => {
+  const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+  if (token) {
+    try {
+      const res = await fetch('http://lamb.servebeer.com:8000/kiem-tra-token/', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) {
+        throw new Error('Token hết hạn');
+      }
+
+      console.log('Token hợp lệ');
+    } catch (err) {
+      console.error('Lỗi xác thực:', err.message);
+      localStorage.clear();
+      sessionStorage.clear();
+      router.push('/login');
+    }
+  } else {
+    router.push('/');
   }
-}
-</script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+});
+</script> -->
+<template>
+  <router-view />
+</template>

@@ -1,0 +1,47 @@
+/* src/assets/styles/responsive.css */
+
+/* Breakpoints phổ biến */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+
+  .text-responsive {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+
+  .hide-on-mobile {
+    display: none !important;
+  }
+
+  .mobile-full-width {
+    width: 100% !important;
+  }
+
+  .text-responsive {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-responsive {
+    font-size: 13px;
+  }
+
+  .btn {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}
